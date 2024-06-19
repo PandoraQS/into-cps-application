@@ -50,7 +50,7 @@
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                     </button>
-                <a class="navbar-brand" href="#">COE Status</a>
+                <a class="navbar-brand" href="#">Console</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -65,10 +65,14 @@
                     </li>
                     <li>
                         <button type="button" class="btn btn-default navbar-xs navbar-btn btn-xs" onclick="coeViewController.clearOutput()">
-                                <span class="glyphicon glyphicon-link"></span>Clear
+                                <span class="glyphicon glyphicon-link"></span>Clear COE
                            </button>
                     </li>
-
+                    <li>
+                        <button type="button" class="btn btn-default navbar-xs navbar-btn btn-xs" onclick="coeLogViewController.clearOutput()">
+                            <span class="glyphicon glyphicon-link"></span>Clear Log
+                       </button>
+                    </li>
                     <li>
                         <button type="button" id="coe-btn-stop" class="btn btn-default navbar-xs navbar-btn btn-xs" onclick="coeViewController.stopCoe()">
                                 <span class="glyphicon glyphicon-remove"></span> Stop

@@ -88,3 +88,14 @@ coe-configuration .alert-big {
     vertical-align: 0.1em;
     }
     
+.link-button{
+    display: block;
+    padding: 10px 15px;
+    color: #337ab7;
+    background-color: transparent;
+}
+
+.link-button:focus, .link-button:hover{
+    text-decoration: none;
+    background-color: #eee;
+}

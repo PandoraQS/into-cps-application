@@ -135,12 +135,12 @@ export class CoeServerStatusUiController {
         let icon = <HTMLButtonElement>document.getElementById("coeIconColor");
     
         if (coe.isRunning()) {
-            button.innerHTML = 'Stop CoE <span id="coeIconColor" style="color:green" class="glyphicon glyphicon-one-fine-dot"></span>';
+            button.innerHTML = 'Stop COE <span id="coeIconColor" style="color:green" class="glyphicon glyphicon-one-fine-dot"></span>';
             console.log("button: ", button);
             button.setAttribute('onclick', 'coeViewController.stopCoe()');
             icon.style.color = 'green';
         } else {
-            button.innerHTML = 'Start CoE <span id="coeIconColor" style="color:red" class="glyphicon glyphicon-one-fine-dot"></span>';
+            button.innerHTML = 'Start COE <span id="coeIconColor" style="color:red" class="glyphicon glyphicon-one-fine-dot"></span>';
             button.setAttribute('onclick', 'coeViewController.launchCoe()');
             icon.style.color = 'red';
         }

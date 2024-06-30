@@ -13,32 +13,36 @@ test.describe("COE Button Tests", async () => {
     });
 
     test('Initial state: Button should show "Start COE" with red circle', async () => {
-        const buttonText = await helper.window.innerText('#coe-btn-launch-bottom');
-        expect(buttonText).toContain('Start COE');
+        expect(await helper.window.locator('#coe-btn-launch-bottom')
+            .innerText()
+        ).toMatch('Start COE');
 
-        const circleColor = await helper.window.locator('#coeIconColor').evaluate((span) => span.style.color);
-        expect(circleColor).toBe('red');
+        expect(await helper.window.locator('#coeIconColor')
+            .evaluate((span) => span.style.color)
+        ).toBe('red');
     });
 
     test('Clicking button: Should change to "Stop COE" with green circle', async () => {
         await helper.window.locator('#coe-btn-launch-bottom').click();
 
-        const buttonText = await helper.window.innerText('#coe-btn-launch-bottom');
-        expect(buttonText).toContain('Stop COE');
+        expect(await helper.window.locator('#coe-btn-launch-bottom')
+            .innerText()
+        ).toMatch('Stop COE');
 
-        const circleColor = await helper.window.locator('#coeIconColor').evaluate((span) => span.style.color);
-        expect(circleColor).toBe('green');
+        expect(await helper.window.locator('#coeIconColor')
+            .evaluate((span) => span.style.color)
+        ).toBe('green');
     });
 
     test('Clicking "Stop COE": Should change back to "Start COE" with red circle', async () => {
         // First click to start COE
         await helper.window.locator('#coe-btn-launch-bottom').click(); 
         expect(await helper.window.locator('#coe-btn-launch-bottom')
-        .innerText()
+            .innerText()
         ).toMatch('Stop COE');
 
         expect (await helper.window.locator('#coeIconColor')
-        .evaluate((span) => span.style.color)
+            .evaluate((span) => span.style.color)
         ).toBe('green');
         
         // Second click to stop COE
@@ -46,11 +50,11 @@ test.describe("COE Button Tests", async () => {
         await helper.window.waitForTimeout(2000);
 
         expect(await helper.window.locator('#coe-btn-launch-bottom')
-        .innerText()
+            .innerText()
         ).toMatch('Start COE');
 
         expect (await helper.window.locator('#coeIconColor')
-        .evaluate((span) => span.style.color)
+            .evaluate((span) => span.style.color)
         ).toBe('red');
 
     });

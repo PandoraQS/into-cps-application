@@ -30,7 +30,6 @@ Development Build
 1. clone the repository: ``git clone https://github.com/INTO-CPS-Association/into-cps-application/tree/development``
 2. change working directory to repository: ``cd into-cps-application``
 3. install node dependencies: ``npm install``
-4. install other resources: ``gulp init``
 5. build ui: ``gulp`` 
 6. run the test: ``npm test``
 

@@ -13,7 +13,7 @@ The following are the commands to run the application. After checking out the re
 2.  To build the UI:  `gulp` or `gulp build`
 3.  To run it:  `npm start`
 4.  To run tests: `npm test`
-5.  To build and create a developer .exe: `gulp package` 
+5.  To build and create a developer .exe file: `gulp package` 
 
 ## Useful commands
 - `gulp watch`: it will automatically detect when you save a file and run the corresponding build task so you only have to refresh the app when developing.

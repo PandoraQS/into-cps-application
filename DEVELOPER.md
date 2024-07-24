@@ -10,10 +10,11 @@ To manage multiple versions of **`Node.js`** &/or **`npm`**, consider using a [n
 ## How to build and run the application
 The following are the commands to run the application. After checking out the repo:
 1.  To install node dependencies:  `npm install`
-2.  To build the UI:  `gulp` or `gulp build`
-3.  To run it:  `npm start`
-4.  To run tests: `npm test`
-5.  To build and create a developer .exe file: `gulp package` 
+2.  To install gulp: `npm install -g gulp` (it's easiest to have it installed globally)
+3.  To build the UI:  `gulp` or `gulp build`
+4.  To run it:  `npm start`
+5.  To run tests: `npm test`
+6.  To build and create a developer .exe file: `gulp package` 
 
 ## Useful commands
 - `gulp watch`: it will automatically detect when you save a file and run the corresponding build task so you only have to refresh the app when developing.

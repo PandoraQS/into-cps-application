@@ -16,7 +16,7 @@
   },
   "electronVersion": "10.1.3",
   "scripts": {
-    "start": "electron dist/main.js",
+    "start": "electron --no-sandbox dist/main.js",
     "test": "npx playwright test",
     "dist": "electron-builder --x64 -p never"
   },

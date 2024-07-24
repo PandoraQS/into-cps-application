@@ -185,7 +185,12 @@ export class CoeSimulationService implements OnDestroy  {
             this.errorReport(false, "Error: " + err.statusText, true)
         } else {
             this.progress = 0;
+            console.log("err: ", err);
+            if('error' in err){
+                this.errorReport(true, "Error: " + err.statusText + " - " + err.error + "\n Check CoE Log for more details.");
+            } else{
             this.errorReport(true, "Error: " + err.statusText);
+            }
         }
     }
 

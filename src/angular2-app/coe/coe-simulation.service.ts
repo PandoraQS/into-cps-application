@@ -175,7 +175,7 @@ export class CoeSimulationService implements OnDestroy  {
         }).catch(err => this.errorHandler(err));
     }
 
-    errorHandler(err: Response, stopped?: boolean) {
+    errorHandler(err: { error?: string, statusText?: string, status?: number }, stopped?: boolean) {
         console.warn(err);
         if (stopped) {
             this.progress = 0;
@@ -187,9 +187,10 @@ export class CoeSimulationService implements OnDestroy  {
             this.progress = 0;
             console.log("err: ", err);
             if('error' in err){
-                this.errorReport(true, "Error: " + err.statusText + " - " + err.error + ". Check CoE Log for more details.");
+                let errorMessage = typeof err.error === 'string' ? err.error : '';
+                this.errorReport(true, "Error: " + err.statusText + (errorMessage ? " - " + errorMessage : "") + ". Check CoE Server and/or CoE Log for more details.");
             } else{
-            this.errorReport(true, "Error: " + err.statusText);
+                this.errorReport(true, "Error: " + err.statusText);
             }
         }
     }

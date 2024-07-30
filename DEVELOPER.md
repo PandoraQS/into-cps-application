@@ -16,8 +16,9 @@ The following are the commands to run the application. After checking out the re
 5.  To run tests: `npm test`
 6.  To build and create a developer .exe file: `gulp package` 
 
-## Useful commands
+## Useful commands and properties
 - `gulp watch`: it will automatically detect when you save a file and run the corresponding build task so you only have to refresh the app when developing.
+- `--no-sandbox`: the property `--no-sandbox` has been inserted to `npm start` to disable sandbox mode to prevent GPU mismanagement errors, caused by Electron conflicts, during virtualization on a Linux operating system. It is necessary, however, that this property be entered while starting the built program from the terminal. For example, starting the AppImage from the terminal we would type `./NomeAppImage --no-sandbox`. This way, the application will be started without any problems. 
 
 ## Latest builds
 The master branch is built automatically on git pushes and the output, for successful builds. Please find the artifacts by clicking in the run [of the Package workflow](https://github.com/INTO-CPS-Association/into-cps-application/actions?query=workflow%3APackage).

@@ -50,7 +50,7 @@
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                     </button>
-                <a class="navbar-brand" href="#">COE Status</a>
+                <a class="navbar-brand" href="#">Console</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -60,15 +60,19 @@
                     <li title="Shows if COE console output is enabled.&#13;Relaunch the COE to enable output if &quot;X&quot; is shown."> Stream redirect: <span id="stream-status" class="glyphicon glyphicon-remove"></span></li>
                     <li>
                         <button type="button" id="coe-btn-launch" class="btn btn-default navbar-xs navbar-btn btn-xs" onclick="coeViewController.launchCoe()">
-                                <span class="glyphicon glyphicon-link"></span>Launch
+                                <span class="glyphicon glyphicon-link"></span>Start COE
                            </button>
                     </li>
                     <li>
                         <button type="button" class="btn btn-default navbar-xs navbar-btn btn-xs" onclick="coeViewController.clearOutput()">
-                                <span class="glyphicon glyphicon-link"></span>Clear
+                                <span class="glyphicon glyphicon-link"></span>Clear COE
                            </button>
                     </li>
-
+                    <li>
+                        <button type="button" class="btn btn-default navbar-xs navbar-btn btn-xs" onclick="coeLogViewController.clearOutput()">
+                            <span class="glyphicon glyphicon-link"></span>Clear Log
+                       </button>
+                    </li>
                     <li>
                         <button type="button" id="coe-btn-stop" class="btn btn-default navbar-xs navbar-btn btn-xs" onclick="coeViewController.stopCoe()">
                                 <span class="glyphicon glyphicon-remove"></span> Stop

@@ -124,7 +124,28 @@ export class CoeServerStatusUiController {
         btnLaunch.disabled = coe.isRunning();
         var btnStop = <HTMLButtonElement>document.getElementById("coe-btn-stop");
         btnStop.disabled = !coe.isRunning();
+        var btnBottomLaunch = <HTMLButtonElement>document.getElementById("coe-btn-launch-bottom");
+        var btnBottomStop = <HTMLButtonElement>document.getElementById("coe-btn-launch-bottom");
     }
+
+    public updateButtonState() {
+        var coe = IntoCpsApp.getInstance().getCoeProcess();
+        console.log("is running: ", coe.isRunning());
+        let button = <HTMLButtonElement>document.getElementById("coe-btn-launch-bottom");
+        let icon = <HTMLButtonElement>document.getElementById("coeIconColor");
+    
+        if (coe.isRunning()) {
+            button.innerHTML = 'Stop COE <span id="coeIconColor" style="color:green" class="glyphicon glyphicon-one-fine-dot"></span>';
+            console.log("button: ", button);
+            button.setAttribute('onclick', 'coeViewController.stopCoe()');
+            icon.style.color = 'green';
+        } else {
+            button.innerHTML = 'Start COE <span id="coeIconColor" style="color:red" class="glyphicon glyphicon-one-fine-dot"></span>';
+            button.setAttribute('onclick', 'coeViewController.launchCoe()');
+            icon.style.color = 'red';
+        }
+    }
+    
 
     consoleAutoScroll() {
         let div = this.outputDiv;
@@ -162,9 +183,10 @@ export class CoeServerStatusUiController {
         let index = coe.subscribePrepareSimulationCallback(this.type, this.prepareSimulationCallback());
         this.isSubscribed = true;
         this.setStatusIcons();
-
+        this.updateButtonState();
+        
         if (!this.coeStatusRunning) {
-            window.setInterval(() => { this.setStatusIcons(); this.truncateVisibleLog() }, 3000);
+            window.setInterval(() => { this.setStatusIcons(); this.truncateVisibleLog(), this.updateButtonState()}, 3000);
             window.setInterval(() => { this.consoleAutoScroll() }, 800);
             this.coeStatusRunning = true;
         }
@@ -196,6 +218,8 @@ export class CoeServerStatusUiController {
         if (!coe.isRunning()) {
             coe.start();
         }
+
+        this.updateButtonState();
     }
 
     public stopCoe() {
@@ -203,6 +227,7 @@ export class CoeServerStatusUiController {
         if (coe.isRunning()) {
             coe.stop();
         }
+        this.updateButtonState();
     }
 
 }

@@ -175,25 +175,34 @@ export class CoeSimulationService implements OnDestroy  {
         }).catch(err => this.errorHandler(err));
     }
 
-    errorHandler(err: { error?: string, statusText?: string, status?: number }, stopped?: boolean) {
+    errorHandler(err: { error?: string, statusText?: string, status?: number, message?: string }, stopped?: boolean) {
         console.warn(err);
+        this.progress = 0;
+    
         if (stopped) {
-            this.progress = 0;
-            this.errorReport(false, "Error: " + err.statusText, true, true)
-        } else if (!stopped && err.status == 200) {
-            this.progress = 0;
-            this.errorReport(false, "Error: " + err.statusText, true)
+            this.errorReport(false, "Error: " + (err.statusText || "Simulation stopped due to an error"), true, true);
+        } else if (!stopped && err.status === 200) {
+            this.errorReport(false, "Error: " + (err.statusText || "Unknown error occurred"), true);
         } else {
-            this.progress = 0;
-            console.log("err: ", err);
-            if('error' in err){
-                let errorMessage = typeof err.error === 'string' ? err.error : '';
-                this.errorReport(true, "Error: " + err.statusText + (errorMessage ? " - " + errorMessage : "") + ". Check CoE Server and/or CoE Log for more details.");
-            } else{
-                this.errorReport(true, "Error: " + err.statusText);
+            let errorMessage = "An unknown error occurred";
+            
+            if (err.message) {
+                errorMessage = err.message;
+            } else if (err.error) {
+                errorMessage = typeof err.error === 'string' ? err.error : JSON.stringify(err.error);
+            } else if (err.statusText) {
+                errorMessage = err.statusText;
             }
+    
+            if (err.message && err.message.includes('ENOENT')) {
+                errorMessage = "File not found error: " + err.message;
+            }
+    
+            console.log("err: ", err);
+            this.errorReport(true, "Error: " + errorMessage + ". Check CoE Server and/or CoE Log for more details.");
         }
     }
+    
 
     setSimulationCallBacks(errorReport: (hasError: boolean, message: string, hasWarning: boolean, stopped: boolean) => void, simCompleted: () => void, postScriptOutputReport: (hasError: boolean, message: string) => void) {
         this.errorReport = errorReport;

@@ -155,7 +155,7 @@ export class CoeLogPrinter {
                 //console.log(`CoeLogPrinter watching ${path} invoking callback: ${this.callback}`);
                 callback(buffer.toString(),alteredFilePosition);
             }
-            // console.log(`CoeLogPrinter watching ${path} is reading from filePosition: ${this.filePosition} with the size fileReadSize: ${readSize}. Remaning to read: ${currentSize-this.filePosition-readSize}`);
+            //console.log(`CoeLogPrinter watching ${path} is reading from filePosition: ${this.filePosition} with the size fileReadSize: ${readSize}. Remaning to read: ${currentSize-this.filePosition-readSize}`);
             this.filePosition = this.filePosition + readSize
 
             return readSize;

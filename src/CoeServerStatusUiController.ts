@@ -130,13 +130,11 @@ export class CoeServerStatusUiController {
 
     public updateButtonState() {
         var coe = IntoCpsApp.getInstance().getCoeProcess();
-        console.log("is running: ", coe.isRunning());
         let button = <HTMLButtonElement>document.getElementById("coe-btn-launch-bottom");
         let icon = <HTMLButtonElement>document.getElementById("coeIconColor");
     
         if (coe.isRunning()) {
             button.innerHTML = 'Stop COE <span id="coeIconColor" style="color:green" class="glyphicon glyphicon-one-fine-dot"></span>';
-            console.log("button: ", button);
             button.setAttribute('onclick', 'coeViewController.stopCoe()');
             icon.style.color = 'green';
         } else {
@@ -240,7 +238,9 @@ export class CoeLogUiController extends CoeServerStatusUiController {
         if (this.isSubscribed)
             return;
         var coe = IntoCpsApp.getInstance().getCoeProcess();
-        coe.subscribeLog4J((line: any, skip: boolean) => { this.processOutput(line, skip) })
+        coe.subscribeLog4J((line: any, skip: boolean) => { 
+            this.processOutput(line, skip) 
+        })
         let index = coe.subscribePrepareSimulationCallback(this.type, this.prepareSimulationCallback());
         window.setInterval(() => { this.truncateVisibleLog() }, 3000);
         this.isSubscribed = true;

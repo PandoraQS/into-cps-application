@@ -10,10 +10,10 @@
  * THIS PROGRAM IS PROVIDED UNDER THE TERMS OF GPL VERSION 3 LICENSE OR
  * THIS INTO-CPS ASSOCIATION PUBLIC LICENSE VERSION 1.0.
  * ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS PROGRAM CONSTITUTES
- * RECIPIENT'S ACCEPTANCE OF THE OSMC PUBLIC LICENSE OR THE GPL
+ * RECIPIENT'S ACCEPTANCE OF THE OSMC PUBLIC LICENSE OR THE GPL 
  * VERSION 3, ACCORDING TO RECIPIENTS CHOICE.
  *
- * The INTO-CPS toolchain  and the INTO-CPS Association Public License
+ * The INTO-CPS toolchain  and the INTO-CPS Association Public License 
  * are obtained from the INTO-CPS Association, either from the above address,
  * from the URLs: http://www.into-cps.org, and in the INTO-CPS toolchain distribution.
  * GNU version 3 is obtained from: http://www.gnu.org/copyleft/gpl.html.
@@ -26,7 +26,7 @@
  *
  * See the full INTO-CPS Association Public License conditions for more details.
  *
- * See the CONTRIBUTORS file for author and contributor information.
+ * See the CONTRIBUTORS file for author and contributor information. 
  */
 
 import { IntoCpsApp } from "../IntoCpsApp";
@@ -52,9 +52,43 @@ export class CoeProcess {
     UICrtlType,
     () => void
   >();
+  private timestamp: string;
+
   public constructor(settings: ISettingsValues) {
     this.settings = settings;
+    this.timestamp = this.generateTimestamp();
+    
+    // Clear the log files if they exist
+    const logFilePath = this.getLogFilePath();
+    const log4JFilePath = this.getLog4JFilePath();
+    
+    if (fs.existsSync(logFilePath)) {
+      fs.writeFileSync(logFilePath, "");
+    }
+    
+    if (fs.existsSync(log4JFilePath)) {
+      fs.writeFileSync(log4JFilePath, "");
+    }
   }
+
+  private generateTimestamp(): string {
+    const now = new Date();
+    return `${now.getFullYear()}-${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${now
+      .getDate()
+      .toString()
+      .padStart(2, "0")}_${now
+      .getHours()
+      .toString()
+      .padStart(2, "0")}-${now
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}-${now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")}`;
+}
 
   //get the url needed to obtain the version of the coe
   public static getCoeVersionUrl() {
@@ -105,7 +139,7 @@ export class CoeProcess {
     let installDir = this.settings.getValue(SettingKeys.INSTALL_TMP_DIR);
     let childCwd = Path.join(installDir, "coe-working-dir");
     if (!fs.existsSync(childCwd)) {
-      fs.mkdirSync(childCwd,{recursive: true});
+      fs.mkdirSync(childCwd, {recursive: true});
     }
     return childCwd;
   }
@@ -191,10 +225,9 @@ export class CoeProcess {
       //fs.unlinkSync(this.getLogFilePath())
       //fs.unlinkSync(this.getPidFilePath());
       CoeProcess.firstStart = false;
-    }
-
+    } 
+    
     if (fs.existsSync(this.getPidFilePath())) {
-      //this.stop();
       var pid = this.getPid();
       if (fs.existsSync(this.getPidFilePath()))
         fs.unlinkSync(this.getPidFilePath());
@@ -236,13 +269,10 @@ export class CoeProcess {
       }
     });
 
-    child.stdout.on("data", function(data: any) {
-      //Here is where the output goes
+    child.stdout.on("data", (data: any) => {
       let dd = (data + "").split("\n");
-      // console.info("stdout" + data);
       dd.forEach(line => {
         if (line.trim().length != 0) {
-          // console.info(line);
           fs.appendFile(logFile, line + "\n", function(err) {
             if (err) {
               throw err;
@@ -253,12 +283,10 @@ export class CoeProcess {
     });
 
     child.stderr.on("data", (data: any) => {
-      // console.log(data);
       let dd = (data + "").split("\n");
 
       dd.forEach(line => {
         if (line.trim().length != 0) {
-          //console.info(line);
           fs.appendFile(
             logFile,
             this.getErrorLogLinePrefix() + line + "\n",
@@ -282,13 +310,41 @@ export class CoeProcess {
     });
   }
 
+  private copyAndRenameLogFiles() {
+    const timestamp = this.generateTimestamp();
+    const workingDir = this.getWorkingDir();
+    
+    const consoleLogPath = Path.join(workingDir, "console.log");
+    const coeLogPath = Path.join(workingDir, "coe.log");
+    
+    const newConsoleLogPath = Path.join(workingDir, `console_${timestamp}.log`);
+    const newCoeLogPath = Path.join(workingDir, `coe_${timestamp}.log`);
+    
+    if (fs.existsSync(consoleLogPath)) {
+      fs.copyFileSync(consoleLogPath, newConsoleLogPath);
+      //console.info(`Copied and renamed console log file to: ${newConsoleLogPath}`);
+    }
+    
+    if (fs.existsSync(coeLogPath)) {
+      fs.copyFileSync(coeLogPath, newCoeLogPath);
+      //console.info(`Copied and renamed COE log file to: ${newCoeLogPath}`);
+    }
+  }
+
   public simulationFinished() {
     this.coeLogPrinter.printRemaining();
     this.coeConsolePrinter.printRemaining();
+    this.copyAndRenameLogFiles();
   }
-  
-  public prepareSimulation() {
-    fs.truncateSync(this.getLogFilePath());
+
+  public prepareSimulation() {    
+    const logFilePath = this.getLogFilePath();
+    const log4JFilePath = this.getLog4JFilePath();
+    
+    // Clear the log files before starting the simulation
+    fs.writeFileSync(logFilePath, "");
+    fs.writeFileSync(log4JFilePath, "");
+    
     this.cbPrepSimCBs.forEach(val => {
       val();
     });
@@ -311,17 +367,18 @@ export class CoeProcess {
       fs.writeFileSync(path, "");
     }
     this.coeConsolePrinter = new CoeLogPrinter(this.maxReadSize, callback);
-    this.coeConsolePrinter.startWatching(this.getLogFilePath());
+    this.coeConsolePrinter.startWatching(path);
   }
 
   public subscribeLog4J(callback: any) {
     let logFile: string = this.getLog4JFilePath();
-
     if (!fs.existsSync(logFile)) {
       fs.writeFileSync(logFile, "");
+    } else{
+      
     }
     this.coeLogPrinter = new CoeLogPrinter(this.maxReadSize, callback);
-    this.coeLogPrinter.startWatching(this.getLog4JFilePath());
+    this.coeLogPrinter.startWatching(logFile);
   }
 
   public unloadPrintView(uiCrtlType: UICrtlType) {

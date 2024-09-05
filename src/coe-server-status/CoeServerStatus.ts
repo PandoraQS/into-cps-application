@@ -111,7 +111,7 @@ var activeDiv: HTMLDivElement;
 var errorPrefix = ".";
 
 function processOutput(data: string) {
-
+    
     let div = <HTMLDivElement>document.getElementById("coe-console-output");
     let dd = (data + "").split("\n");
 

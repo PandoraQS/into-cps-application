@@ -252,11 +252,15 @@ export class CoeProcess {
 
     let logFile = this.getLogFilePath();
 
+    const out = fs.openSync(this.getLogFilePath(), 'a');
+    const err = fs.openSync(this.getLogFilePath(), 'a');
+
     var child = spawn("java", ["-jar", this.getCoePath()], {
       detached: true,
       shell: false,
       cwd: childCwd,
-      env: env
+      env: env,
+      stdio: ['ignore', out, err]  // Redirige stdout e stderr direttamente sui file
     });
     child.unref();
 

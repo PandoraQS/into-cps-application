@@ -260,7 +260,7 @@ export class CoeProcess {
       shell: false,
       cwd: childCwd,
       env: env,
-      stdio: ['ignore', out, err]  // Redirige stdout e stderr direttamente sui file
+      stdio: ['ignore', out, err]
     });
     child.unref();
 

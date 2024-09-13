@@ -48,8 +48,11 @@ jobs:
       
       - name: Install Dependencies
         run: |
+          if [ "$RUNNER_OS" == "macOS" ] && [ "$RUNNER_ARCH" == "ARM64" ]; then
+            export PATH=$(pwd)/node-v14.18.1-darwin-x64/bin:$PATH
+          fi
           echo "Node.js version being used: $(node -v)"
-          npm install  
+          npm install
 
       - name: Install Gulp on Mac
         run: npm install -g gulp

@@ -48,7 +48,7 @@ jobs:
       
       - name: Install Dependencies
         run: |
-          echo "Node.js version: $(node -v)"
+          echo "Node.js version being used: $(node -v)"
           npm install  
 
       - name: Install Gulp on Mac

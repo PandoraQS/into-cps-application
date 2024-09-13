@@ -28,6 +28,9 @@ jobs:
         run: |
           arch -x86_64 /bin/bash -c "$(curl -fsSL https://nodejs.org/dist/v14.18.1/node-v14.18.1-darwin-x64.tar.gz | tar -xz)"
           export PATH=$(pwd)/node-v14.18.1-darwin-x64/bin:$PATH
+          echo "Node.js installed via Rosetta"
+          echo "Node.js version: $(node -v)"
+          echo "Node.js path: $(which node)"
 
       - name: Setup Node.js (Standard)
         if: runner.os != 'macOS' || runner.arch != 'ARM64'
@@ -44,7 +47,9 @@ jobs:
           result-encoding: string
       
       - name: Install Dependencies
-        run: npm install  
+        run: |
+          echo "Node.js version: $(node -v)"
+          npm install  
 
       - name: Install Gulp on Mac
         run: npm install -g gulp

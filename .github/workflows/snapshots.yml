@@ -45,13 +45,18 @@ jobs:
           script: |
             return JSON.parse(require('fs').readFileSync('package.json')).version;
           result-encoding: string
-      
-      - name: Install Dependencies
+    
+      - name: Install Dependencies on macOS ARM64
+        if: runner.os == 'macOS' && runner.arch == 'ARM64'
         run: |
-          if [ "$RUNNER_OS" == "macOS" ] && [ "$RUNNER_ARCH" == "ARM64" ]; then
-            export PATH=$(pwd)/node-v14.18.1-darwin-x64/bin:$PATH
-          fi
+          export PATH=$(pwd)/node-v14.18.1-darwin-x64/bin:$PATH
+          echo "Node.js path updated for macOS ARM64"
           echo "Node.js version being used: $(node -v)"
+          npm install
+      
+      - name: Install Dependencies on Other OS
+        if: runner.os != 'macOS' || runner.arch != 'ARM64'
+        run: |
           npm install
 
       - name: Install Gulp on Mac

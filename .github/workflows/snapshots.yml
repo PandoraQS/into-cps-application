@@ -63,9 +63,15 @@ jobs:
         run: npm install -g gulp
         if: startsWith(matrix.os, 'mac')
 
-      - name: Build
-        run: gulp prep-pkg
+      - name: Build on macOS ARM64
+        if: runner.os == 'macOS' && runner.arch == 'ARM64'
+        run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+          gulp prep-pkg
 
+      - name: Build on Other OS
+        run: gulp prep-pkg
+        
       - name: Package Win/Linux
         run: npm run dist 
         if: startsWith(matrix.os, 'win') || startsWith(matrix.os, 'ubuntu')

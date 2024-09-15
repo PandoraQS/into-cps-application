@@ -79,8 +79,8 @@ jobs:
 
       - name: Package Mac
         run: |
-          echo("Python Path: $(which python3)")
-          echo("Python Version: $(python3 --version)")
+          echo "Python Path: $(which python3)"
+          echo "Python Version: $(python3 --version)"
           PYTHON_PATH=$(which python3) npm run dist 
         if: startsWith(matrix.os, 'mac')      
 

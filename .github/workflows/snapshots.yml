@@ -78,8 +78,8 @@ jobs:
         if: startsWith(matrix.os, 'win') || startsWith(matrix.os, 'ubuntu')
 
       - name: Package Mac
-        run: PYTHON_PATH=$(which python) npm run dist 
-        if: startsWith(matrix.os, 'mac')
+        run: PYTHON_PATH=$(which python3) npm run dist 
+        if: startsWith(matrix.os, 'mac')      
 
       - name: Upload Linux Version
         uses: actions/upload-artifact@v4

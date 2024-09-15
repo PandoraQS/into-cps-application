@@ -70,6 +70,7 @@ jobs:
           gulp prep-pkg
 
       - name: Build on Other OS
+        if: runner.os != 'macOS' || runner.arch != 'ARM64'
         run: gulp prep-pkg
         
       - name: Package Win/Linux

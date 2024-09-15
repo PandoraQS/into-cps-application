@@ -78,7 +78,10 @@ jobs:
         if: startsWith(matrix.os, 'win') || startsWith(matrix.os, 'ubuntu')
 
       - name: Package Mac
-        run: PYTHON_PATH=$(which python3) npm run dist 
+        run: |
+          echo("Python Path: $(which python3)")
+          echo("Python Version: $(python3 --version)")
+          PYTHON_PATH=$(which python3) npm run dist 
         if: startsWith(matrix.os, 'mac')      
 
       - name: Upload Linux Version

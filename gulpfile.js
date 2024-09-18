@@ -175,7 +175,13 @@ gulp.task("compile-ts", function () {
     .pipe(sourcemap.init())
     .pipe(tsProject({
       exclude: ['node_modules/@types/yargs/**/*.d.ts'] // Exclude yargs types as they are causing issues with the build
-    }));
+    }))
+    .on('data', function(file) {
+      console.log('Processing file:', file.path);
+    })
+    .on('error', function(err) {
+      console.error('Error processing file:', err);
+    });
     return tsResult.js.pipe(sourcemap.write()).pipe(gulp.dest(outputPath));
 });
 

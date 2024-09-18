@@ -173,9 +173,10 @@ gulp.task("compile-ts", function () {
   var tsResult = gulp
     .src(tsSrcs)
     .pipe(sourcemap.init())
-    .pipe(tsProject());
-
-  return tsResult.js.pipe(sourcemap.write()).pipe(gulp.dest(outputPath));
+    .pipe(tsProject({
+      exclude: ['node_modules/@types/yargs/**/*.d.ts'] // Exclude yargs types as they are causing issues with the build
+    }));
+    return tsResult.js.pipe(sourcemap.write()).pipe(gulp.dest(outputPath));
 });
 
 // Compile Angular 2 application

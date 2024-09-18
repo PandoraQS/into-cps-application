@@ -1,0 +1,15 @@
+class RobotSensor
+
+instance variables
+
+handle : bool->real;
+
+operations
+
+public RobotSensor: bool->real ==> RobotSensor
+RobotSensor(h) == handle := h;
+
+public getReading: () ==> real
+getReading()==return handle(true);
+
+end RobotSensor

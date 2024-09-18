@@ -1,0 +1,15 @@
+class RobotServo
+
+instance variables
+
+handle : real->bool;
+
+operations
+
+public RobotServo: real->bool ==> RobotServo
+RobotServo(h) == handle := h;
+
+public setServo: real ==> ()
+setServo(value)==let - = handle(value) in skip;
+
+end RobotServo

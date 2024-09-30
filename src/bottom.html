@@ -1,0 +1,29 @@
+<script>
+    function launchServerCoeMock() {
+        const button = document.getElementById("coe-btn-launch-bottom");
+        const icon = document.getElementById("coeIconColor");
+        if (icon.style.color === "red") {
+            button.innerHTML = 'Stop COE <span id="coeIconColor" style="color:green" class="glyphicon glyphicon-one-fine-dot"></span>';
+        } else if (icon.style.color === "green") {
+            button.innerHTML = 'Start COE <span id="coeIconColor" style="color:red" class="glyphicon glyphicon-one-fine-dot"></span>';
+        }
+    }
+</script>
+
+<div class="preview-wrapper" style="overflow-y: hidden;top: 0px;">
+    <nav class="navbar navbar-default navbar-fixed-bottom intonav">
+        <ul id="navigation" class="nav nav-pills justify-content-end">
+            <li>
+                <button type="button" id="coe-btn-launch-bottom" class="btn link-button" 
+                    onclick="launchServerCoeMock()" 
+                    title="Shows the output of the COE process. Provides options to Launch and Stop the COE.">
+                    Start COE
+                    <span id="coeIconColor" style="color:red" class="glyphicon glyphicon-one-fine-dot"></span>
+                </button>
+            </li>
+            <li>
+                <a id="coe-log-btn-status" class="nav-link" href="#" title="Tails the COE log file (coe.log) if it is located in into-cps-projects\install_downloads\coe-working-dir">COE Log</a>
+            </li> 
+        </ul>
+    </nav>
+</div>

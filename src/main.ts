@@ -18,9 +18,9 @@ function createWindow() {
   });
   mainWindow.loadURL('file://' + __dirname + '/index.html'); 
   //For DevTools:
-  if (process.env.RUNNING_TEST !== "false") {
+  /* if (process.env.RUNNING_TEST !== "false") {
     mainWindow.webContents.openDevTools();
-  }
+  } */
 
 
   mainWindow.on('closed', function () {

@@ -29,7 +29,6 @@
  * See the CONTRIBUTORS file for author and contributor information. 
  */
 'use strict'
-import { StatusBarHandler, PreviewHandler } from "./bottom"
 
 class InitializationController {
     // constants
@@ -37,7 +36,6 @@ class InitializationController {
     layout!: W2UI.W2Layout;
     title!: HTMLTitleElement;
     mainView!: HTMLDivElement;
-    previewHandler!: PreviewHandler;
 
     constructor() {
         this.initialize();
@@ -46,13 +44,6 @@ class InitializationController {
         this.setTitle();
         this.configureLayout();
         this.loadViews();
-        this.previewHandler = new PreviewHandler((name: string, panelName: string, visible: boolean) => {
-            if (visible) {
-                this.layout.show(name)
-            } else {
-                this.layout.hide(name)
-            }
-        });
     }
     
     private configureLayout() {
@@ -84,9 +75,7 @@ class InitializationController {
             let devMode = "development_mode";
             }
         );
-        this.layout.load("bottom", "bottom.html", "", () => {
-            StatusBarHandler.initializeStatusbar(this.previewHandler);
-        });
+        this.layout.load("bottom", "bottom.html", "", () => {});
         this.layout.hide("preview");
     }
 }

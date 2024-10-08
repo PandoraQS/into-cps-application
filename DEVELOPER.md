@@ -2,7 +2,7 @@
 ## Required technologies and tools
 - [Node Package Manager (NPM)](https://www.npmjs.com/package/npm): a package management system used to maintain packages used by the application. NPM 3 or higher is required.
 - [Gulp](https://gulpjs.com/docs/en/getting-started/quick-start): a build system used to build the application.
-- [Electron](http://electron.atom.io/): The app is built with Electron v10.4.7. 
+- [Electron](http://electron.atom.io/): The app is built with Electron v32.1.2. 
 - [Node.js](https://nodejs.org/) (v14.x is required). 
 - [Visual Studio Code](https://code.visualstudio.com/) is a good choice as an editor: it's cross-platform and is actually built on top of Electron. That said, everything can be used.
 

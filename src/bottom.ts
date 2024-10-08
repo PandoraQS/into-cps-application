@@ -29,29 +29,21 @@
  * See the CONTRIBUTORS file for author and contributor information. 
  */
 
-import { CoeProcess } from "./coe-server-status/CoeProcess"
-import { IntoCpsApp } from "./IntoCpsApp";
-
 export class PreviewHandler {
 
     setVisible: any;
-    coe: CoeProcess;
+    private isCoeRunning: boolean = false;
     constructor(setVisible: any) {
         this.setVisible = setVisible;
-        this.coe = IntoCpsApp.getInstance().getCoeProcess();
-        window.setInterval(() => { this.setStatusIcons() }, 1000);
     }
 
-    private setStatusIcons() {
-        let iconSpan = document.getElementById("coeIconColor");
-        iconSpan.style.color = this.coe.isRunning() ? "green" : "red";
-    }
+
 
     public setVisibilityPreviewPanel(name: string, visibel: boolean) {
         this.setVisible("preview", name, visibel);
 
         var panel = (<HTMLDivElement>document.getElementById(name));
-        var children = panel.parentElement.children;
+        var children = panel.parentElement ? panel.parentElement.children : [];
         for (var i = 0; i < children.length; i++) {
             var tableChild = <HTMLDivElement>children[i];
             tableChild.style.display = "none";
@@ -73,7 +65,7 @@ export class StatusBarHandler {
             element.classList.add("selected");
         }
 
-        var children = element.parentElement.parentElement.getElementsByTagName("a");
+        var children = element?.parentElement?.parentElement?.getElementsByTagName("a") || [];
         for (var i = 0; i < children.length; i++) {
             var tableChild = <HTMLElement>children[i];
             if (tableChild != element)

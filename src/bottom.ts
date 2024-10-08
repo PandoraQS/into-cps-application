@@ -35,19 +35,8 @@ export class PreviewHandler {
     private isCoeRunning: boolean = false;
     constructor(setVisible: any) {
         this.setVisible = setVisible;
-        window.setInterval(() => { this.setStatusIcons() }, 1000);
     }
 
-    private setStatusIcons() {
-        let iconSpan = document.getElementById("coeIconColor");
-        if (iconSpan) {
-            if (this.isCoeRunning) {
-                iconSpan.style.color = "green";
-            } else {
-                iconSpan.style.color = "red";
-            }
-        }
-    }
 
 
     public setVisibilityPreviewPanel(name: string, visibel: boolean) {

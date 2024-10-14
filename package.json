@@ -3,7 +3,7 @@
     "productName": "INTO-CPS APP",
     "version": "5.0.0",
     "description": "User interface for the INTO-CPS Toolchain",
-    "license": "MIT",
+    "license": "SEE LICENSE IN <LICENSE.md>",
     "repository": {
         "type": "git",
         "url": "https://github.com/INTO-CPS-Association/into-cps-application.git"
@@ -38,7 +38,8 @@
     "scripts": {
         "start": "electron dist/main.js",
         "test": "gulp && npx playwright test",
-        "dist": "electron-builder --x64 -p never"
+        "dist": "electron-builder --x64 -p never",
+        "dist:win": "electron-builder --win --x64 -p never"
     },
     "build": {
         "appId": "org.into-cps-association.into-cps-app",

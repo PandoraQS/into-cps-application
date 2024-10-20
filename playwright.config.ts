@@ -1,12 +1,14 @@
-import { PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
-  // Limit the number of workers on CI, use default locally
-  workers: 1,
+export default defineConfig({
+  testDir: './test',
+  timeout: 30000,
   retries: 0,
-  timeout: 15000,
-  reporter: [['list']],
-  preserveOutput: 'never'
-};
-
-export default config;
+  reporter: [
+    ['list'],
+  ],
+  use: {
+    baseURL: process.env.BASE_URL || 'http://localhost:4000',
+    trace: 'retain-on-failure',
+  },
+});

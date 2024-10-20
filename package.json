@@ -23,7 +23,8 @@
         "gulp": "^5.0.0",
         "gulp-sourcemaps": "^3.0.0",
         "gulp-typescript": "^6.0.0-alpha.1",
-        "jquery": "^3.7.1"
+        "jquery": "^3.7.1",
+        "mocha": "^10.7.3"
     },
     "devDependencies": {
         "@types/node": "^22.7.5",
@@ -32,14 +33,18 @@
         "electron-playwright-helpers": "^1.7.1",
         "gulp-clean-css": "^4.3.0",
         "gulp-htmlhint": "^4.0.2",
+        "monocart-coverage-reports": "^2.11.1",
+        "nyc": "^17.1.0",
         "playwright": "^1.47.2",
+        "ts-node": "^10.9.2",
         "typescript": "^5.6.2"
     },
     "scripts": {
         "start": "electron dist/main.js",
-        "test": "gulp && npx playwright test",
+        "test": "gulp && nyc --reporter=html --reporter=text --reporter=lcov npx playwright test",
         "dist": "electron-builder --x64 -p never",
-        "dist:win": "electron-builder --win --x64 -p never"
+        "dist:win": "electron-builder --win --x64 -p never",
+        "clean": "npm prune"
     },
     "build": {
         "appId": "org.into-cps-association.into-cps-app",

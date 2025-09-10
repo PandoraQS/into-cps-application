@@ -11,7 +11,7 @@ import LivePlotting from './components/LivePlotting/LivePlotting';
 import { useLivePlottingData } from './components/LivePlotting/useLivePlotting';
 
 const App: React.FC = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean | undefined>(undefined);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   // const sidebarWidth = sidebarOpen ? styleConstants.DRAWER_WIDTH : styleConstants.COLLAPSED_WIDTH;
   const location = useLocation();

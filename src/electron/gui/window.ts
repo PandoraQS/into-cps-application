@@ -6,7 +6,7 @@ const isDev = (process.env.NODE_ENV ?? 'production') === 'development';
 
 const preloadPath = isDev
   ? path.resolve(__dirname, 'preload.js')
-  : path.resolve(app.getAppPath(), 'dist/preload.js');
+  : path.resolve(app.getAppPath(), 'dist' , 'preload.js');
 
 const startUrl = isDev
   ? 'http://localhost:3000'
@@ -22,6 +22,7 @@ export function createWindow(): BrowserWindow {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    resizable: true,
     icon: iconPath,
     webPreferences: {
       nodeIntegration: false,

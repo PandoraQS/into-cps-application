@@ -5,6 +5,18 @@ import { MAX_POINTS, ZOOM_RANGE, AUTO_ZOOM_END, MAX_SLIDER_PERCENT, WEBSOCKET, C
 export type PlotData = { time: number; value: number, realTime?: number };
 export type DataMap = Record<string, PlotData[]>;
 
+// --- DATA MAP VALIDATION ---
+export function validateDataMap(data: DataMap): DataMap {
+  const validData: DataMap = {};
+  for (const [key, values] of Object.entries(data)) {
+    if (typeof key !== 'string') continue;
+    const validValues = values.filter(v => typeof v.time === 'number' && typeof v.value === 'number');
+    if (validValues.length > 0) validData[key] = validValues;
+  }
+  return validData;
+}
+
+
 // --- SIGNALS EXTRACTION ---
 export function extractSignals(obj: unknown, prefix = ''): Record<string, number> {
   const result: Record<string, number> = {};
@@ -29,9 +41,11 @@ export function extractSignals(obj: unknown, prefix = ''): Record<string, number
 export function getChartOption(data: DataMap, darkMode: boolean, autoZoomEnd: number | null): EChartsOption {
   const total = Object.values(data)[0]?.length || 0;
 
-  const filteredData = Object.fromEntries(
-    Object.entries(data).filter(([key, values]) =>
-      key !== "dummy" && values && values.length > 0
+  const filteredData = validateDataMap(
+    Object.fromEntries(
+      Object.entries(data).filter(([key, values]) =>
+        key !== "dummy" && values && values.length > 0
+      )
     )
   );
 

@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import { IS_DEV, MAIN_START_URL, GRAPH_START_URL } from "../utils/constants/appShared";
 import type { NotificationType } from '../types/global';
 
 export const electronAPI = {
@@ -46,4 +47,9 @@ export const electronAPI = {
   writeFile: (path: string, content: string) => ipcRenderer.invoke('write-file', { path, content }),
 };
 
-contextBridge.exposeInMainWorld('electronAPI', electronAPI);
+contextBridge.exposeInMainWorld('electronAPI', {
+  ...electronAPI,
+  IS_DEV,
+  MAIN_START_URL,
+  GRAPH_START_URL,
+});

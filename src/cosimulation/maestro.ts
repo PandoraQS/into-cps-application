@@ -1,12 +1,13 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { BrowserWindow } from 'electron';
 import { handleError, sendNotification } from '../utils/errorHandler';
 import { getConfig } from '../utils/config';
 import { SimulationStatus, SimulationStatusType } from '../utils/constants/cosimulation/statuses';
 import { getJavaCommand, getReadableTimestamp } from '../utils/processes/maestroUtils';
 import { setupSimulationLogger, logInfo, logError, logWarn } from '../utils/logger';
 import { getExeca } from '../utils/execaWrapper';
-import { ipcMain } from 'electron';
+import type { NotificationType } from '../types/global';
 
 const execa = getExeca();
   
@@ -21,7 +22,10 @@ export type SimulationResult = {
 // Helper function to update simulation status
 function updateSimulationStatus(status: SimulationStatusType) {
   console.log('[Maestro] Updating simulation status to:', status);
-  ipcMain.emit('simulation-status-update', null, status);
+  const allWindows = BrowserWindow.getAllWindows();
+  allWindows.forEach(win => {
+    win.webContents.send('simulation-status', status);
+  });
 }
 
 export function __setSimulationInProgress(value: boolean) {
@@ -81,7 +85,7 @@ export { getLatestSimulationFolder };
 async function startSimulation(): Promise<SimulationResult> {
   if (simulationInProgress) {
     logWarn(SimulationStatus.SimulationAlreadyInProgress);
-    sendNotification('[Simulation]' + SimulationStatus.SimulationAlreadyInProgress, 'error');
+    sendNotification('[Simulation]' + SimulationStatus.SimulationAlreadyInProgress, 'error' as NotificationType);
     return { success: false, error: SimulationStatus.SimulationAlreadyInProgress, status: SimulationStatus.SimulationAlreadyInProgress };
   }
 
@@ -145,7 +149,7 @@ async function startSimulation(): Promise<SimulationResult> {
           fs.copyFileSync(generatedGraphPath, config.livePlotting);
           fs.unwatchFile(generatedGraphPath);
         } catch (err) {
-          sendNotification(`[Graph] Error copying graph.html: ${err}`, 'error');
+          sendNotification(`[Graph] Error copying graph.html: ${err}`, 'error' as NotificationType);
         }
       }
     });
@@ -185,13 +189,13 @@ async function startSimulation(): Promise<SimulationResult> {
 
     if (exitCode === 0) {
       logInfo('Simulation completed successfully.');
-      sendNotification('[Simulation]: ' + SimulationStatus.SimulationCompleted, 'success');
+      sendNotification('[Simulation]: ' + SimulationStatus.SimulationCompleted, 'success' as NotificationType);
       updateSimulationStatus(SimulationStatus.SimulationCompleted);
       return { success: true, status: SimulationStatus.SimulationCompleted };
     } else {
       const errorMsg = `Simulation failed with exit code ${exitCode}`;
       logError(errorMsg);
-      sendNotification(`[Simulation Error]: ${errorMsg}`, 'error');
+      sendNotification(`[Simulation Error]: ${errorMsg}`, 'error' as NotificationType);
       updateSimulationStatus(SimulationStatus.SimulationFailed);
 
       setTimeout(() => {
@@ -205,7 +209,7 @@ async function startSimulation(): Promise<SimulationResult> {
     const errMsg = error instanceof Error ? error.message : String(error);
     handleError(error);
     logError(`Simulation caught exception: ${errMsg}`);
-    sendNotification(`[Simulation Error]: ${errMsg}`, 'error');
+    sendNotification(`[Simulation Error]: ${errMsg}`, 'error' as NotificationType);
     simulationInProgress = false;
     simLogStream?.end();
 

@@ -1,8 +1,7 @@
 import { BrowserWindow } from 'electron';
-
 import { DARK_MODE_RETRY_INTERVALS, GRAPH_WINDOW, LIGHTCOLORS, DARKCOLORS, LivePlottingErrors } from "../../utils/constants";
 import { PRELOAD_PATH } from "../../utils/constants/appMain";
-import { GRAPH_START_URL } from "../../utils/constants/appShared";
+import { GRAPH_START_URL } from '../../main';
 
 class GraphWindowManager {
   private _graphWindow: BrowserWindow | null = null;
@@ -40,8 +39,6 @@ class GraphWindowManager {
         preload: PRELOAD_PATH,
       },
     });
-    
-    this._graphWindow.webContents.openDevTools()
 
     // Send dark mode update multiple times to ensure synchronization
     if (currentDarkMode !== undefined) {

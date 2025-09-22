@@ -1,12 +1,11 @@
 import { BrowserWindow } from 'electron';
 import { logInfo, logError } from '../../utils/logger';
-
 import { MAIN_WINDOW } from "../../utils/constants/ui";
 import { PRELOAD_PATH, ICON_PATH } from "../../utils/constants/appMain";
-import { MAIN_START_URL, IS_DEV } from "../../utils/constants/appShared";
+import { IS_DEV } from "../../utils/constants/appShared";
+import { MAIN_START_URL } from '../../main';
 
 let mainWindow: BrowserWindow | null = null;
-
 export function createWindow(): BrowserWindow {
   mainWindow = new BrowserWindow({
     width: MAIN_WINDOW.WIDTH,
@@ -32,8 +31,6 @@ export function createWindow(): BrowserWindow {
 
   return mainWindow;
 }
-console.log("ICON_PATH:", ICON_PATH);
-
 export function getMainWindow(): BrowserWindow | null {
   return mainWindow;
 }

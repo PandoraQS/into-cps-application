@@ -47,14 +47,23 @@ function buildRenderer() {
     });
   }
   
-
 function buildPreload() {
   return esbuild.build({
-    ...sharedConfig,
-    entryPoints: ['./preload.js'],
+    entryPoints: ['./preload.ts'],
     outfile: 'dist/preload.js',
     platform: 'node',
-    external: ['electron'],
+    format: 'cjs',
+    bundle: true,
+    target: 'node16',
+    external: [
+      'electron',
+    ],
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production'),
+    },
+    sourcemap: isDev,
+    minify: false,
+    mainFields: ['module', 'main'],
   });
 }
 
@@ -70,9 +79,6 @@ function copyStaticFiles() {
 
    // Copy resources folder
    copyRecursiveSync(resourcesPath, path.join(distPath, 'resources'));
-
-   // Copy preload.js
-   fs.copyFileSync('dist/preload.js', path.join(distPath, 'preload.js'));
 }
 
 // Recursive function to copy files and directories

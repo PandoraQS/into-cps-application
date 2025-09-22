@@ -96,12 +96,15 @@ function copyRecursiveSync(src, dest) {
   }
 }
 
-Promise.all([buildMain(), buildRenderer(), buildPreload()])
-  .then(() => {
-    copyStaticFiles();
-    console.log('Build completed.');
-  })
-  .catch((err) => {
-    console.error('Build failed:', err);
-    process.exit(1);
-  });
+async function buildAll() {
+  await buildMain();
+  await buildRenderer();
+  await buildPreload();
+  copyStaticFiles();
+  console.log('Build completed.');
+}
+
+buildAll().catch((err) => {
+  console.error('Build failed:', err);
+  process.exit(1);
+});
